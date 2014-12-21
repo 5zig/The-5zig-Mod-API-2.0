@@ -1,0 +1,5 @@
+name: The5zigModServerAPI
+version: 2.0
+main: eu.the5zig.mod.server.The5zigMod
+author: 5zig
+website: http://5zig.eu
