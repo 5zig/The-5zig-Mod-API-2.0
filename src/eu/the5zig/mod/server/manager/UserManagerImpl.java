@@ -53,4 +53,9 @@ public class UserManagerImpl implements UserManager, Listener {
 	public void removeUser(ModUser modUser) {
 		onlineModUsers.remove(modUser.getPlayer().getUniqueId());
 	}
+
+	@Override
+	public boolean isModUser(Player player) {
+		return onlineModUsers.containsKey(player.getUniqueId()) && onlineModUsers.get(player.getUniqueId()).isConnected();
+	}
 }

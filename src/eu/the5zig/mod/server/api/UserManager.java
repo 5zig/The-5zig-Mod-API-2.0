@@ -41,4 +41,12 @@ public interface UserManager {
 	 */
 	public void removeUser(ModUser modUser);
 
+	/**
+	 * Checks if that Player is already connected using the 5zig Mod.
+	 *
+	 * @param player The Player that should be checked.
+	 * @return If the Player is already connected using the 5zig Mod.
+	 */
+	public boolean isModUser(Player player);
+
 }

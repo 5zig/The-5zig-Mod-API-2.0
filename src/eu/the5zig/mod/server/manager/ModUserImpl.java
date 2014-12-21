@@ -37,6 +37,6 @@ public class ModUserImpl implements ModUser {
 
 	@Override
 	public boolean isConnected() {
-		return connected;
+		return connected && player.isOnline();
 	}
 }

@@ -45,6 +45,7 @@ public class ClientMessageListener implements PluginMessageListener {
 	 */
 	private void handlePluginMessage(Player player, String message) {
 		if (message.startsWith("l:")) {
+			if (plugin.getUserManager().isModUser(player)) return;
 			The5zigModUserLoginEvent event = new The5zigModUserLoginEvent(player);
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			if (!event.isCancelled()) {
@@ -52,10 +53,10 @@ public class ClientMessageListener implements PluginMessageListener {
 					ModUser modUser = new ModUserImpl(player, Integer.parseInt(message.replace("l:", "")));
 					if (!modUser.isConnected()) return;
 					plugin.getUserManager().addUser(modUser);
+					plugin.getLogger().info("Player " + player.getName() + " connected using the 5zig Mod!");
 					Bukkit.getServer().getPluginManager().callEvent(new The5zigModUserJoinEvent(modUser));
-					The5zigMod.getInstance().getLogger().info("Player " + player.getName() + " connected using the 5zig Mod!");
 				} catch (NumberFormatException e) {
-					The5zigMod.getInstance().getLogger().warning("Player " + player.getName() + " failed to connect with the 5zig Mod!");
+					plugin.getLogger().warning("Player " + player.getName() + " failed to connect with the 5zig Mod!");
 				}
 			}
 		}
