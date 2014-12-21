@@ -1,8 +1,6 @@
 package eu.the5zig.mod.server.manager;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
@@ -17,8 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by 5zig.
@@ -29,12 +25,13 @@ public class StatsManagerImpl implements StatsManager {
 	private ModUser modUser;
 	private String displayName;
 	private HashMap<String, Stat> stats;
-	private List<String> images;
+	private HashMap<String, Integer> images;
+	private int idCounter = 0;
 
 	public StatsManagerImpl(ModUser modUser) {
 		this.modUser = modUser;
 		this.stats = Maps.newHashMap();
-		this.images = Lists.newArrayList();
+		this.images = Maps.newHashMap();
 		displayName = Bukkit.getServerName();
 	}
 
@@ -100,11 +97,12 @@ public class StatsManagerImpl implements StatsManager {
 
 		try {
 			String base64 = Utils.getBase64(image);
-			if (images.contains(base64)) {
-				ProtocolUtils.sendImage(modUser, images.indexOf(base64));
+			if (images.containsKey(base64)) {
+				ProtocolUtils.sendImage(modUser, images.get(base64));
 			} else {
-				images.add(base64);
-				ProtocolUtils.sendImage(modUser, Utils.getBase64(image));
+				images.put(base64, idCounter);
+				ProtocolUtils.sendImage(modUser, Utils.getBase64(image), idCounter);
+				idCounter++;
 			}
 		} catch (IOException e) {
 			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
@@ -120,6 +118,35 @@ public class StatsManagerImpl implements StatsManager {
 			sendImage(ImageIO.read(new File(path)));
 		} catch (IOException e) {
 			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void resetImage(BufferedImage image) {
+		Validate.notNull(image, "Image cannot be null.");
+		Validate.validState(image.getWidth() == 64, "Image width must be 64 pixels.");
+		Validate.validState(image.getHeight() == 64, "Image height must be 64 pixels.");
+
+		try {
+			String base64 = Utils.getBase64(image);
+			if (images.containsKey(base64)) {
+				ProtocolUtils.resetImage(modUser, images.get(base64));
+				images.remove(base64);
+			}
+		} catch (IOException e) {
+			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void resetImage(String path) {
+		Validate.notNull(displayName, "Path cannot be null.");
+		Validate.notEmpty(displayName, "Path cannot be empty.");
+
+		try {
+			resetImage(ImageIO.read(new File(path)));
+		} catch (IOException e) {
+			The5zigMod.getInstance().getLogger().warning("Could not remove Image of " + modUser.getPlayer().getName() + ": " + e.getMessage());
 		}
 	}
 }

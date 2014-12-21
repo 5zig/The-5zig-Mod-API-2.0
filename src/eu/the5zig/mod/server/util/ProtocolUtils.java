@@ -89,18 +89,47 @@ public class ProtocolUtils {
 		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
 	}
 
-	public static void sendImage(ModUser modUser, String base64) {
+	/**
+	 * Sends an image with its server side generated id to a mod user.
+	 *
+	 * @param modUser The Mod User that should see the image.
+	 * @param base64  The base64 String of the Image.
+	 * @param id      The Server-side generated id.
+	 */
+	public static void sendImage(ModUser modUser, String base64, int id) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.IMAGE.ordinal());
 		dataSerializer.a(base64);
+		dataSerializer.writeInt(id);
 
 		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
 		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
 	}
 
+	/**
+	 * Sends the id of the cached image to a mod user.
+	 *
+	 * @param modUser The Mod User that should see the image.
+	 * @param id      The Id of the Image.
+	 */
 	public static void sendImage(ModUser modUser, int id) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.IMAGE.ordinal());
+		dataSerializer.writeInt(PayloadType.IMAGE_ID.ordinal());
+		dataSerializer.writeInt(id);
+
+		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
+		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+	}
+
+	/**
+	 * Resets a image of the Mod User by sending the id of the image.
+	 *
+	 * @param modUser The Mod User where the image should be removed.
+	 * @param id      The Id of the Image.
+	 */
+	public static void resetImage(ModUser modUser, int id) {
+		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
+		dataSerializer.writeInt(PayloadType.RESET_IMAGE.ordinal());
 		dataSerializer.writeInt(id);
 
 		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
@@ -109,7 +138,7 @@ public class ProtocolUtils {
 
 	public enum PayloadType {
 
-		UPDATE, RESET, CLEAR, DISPLAY_NAME, LOGIN, IMAGE
+		UPDATE, RESET, CLEAR, DISPLAY_NAME, LOGIN, IMAGE, IMAGE_ID, RESET_IMAGE
 
 	}
 

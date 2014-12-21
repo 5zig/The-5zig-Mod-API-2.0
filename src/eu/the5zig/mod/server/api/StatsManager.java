@@ -62,6 +62,20 @@ public interface StatsManager {
 	public void sendImage(String path);
 
 	/**
+	 * Removes the Image from the Mod User. The Image itself should have been sent already.
+	 *
+	 * @param image The BufferedImage that should be removed.
+	 */
+	public void resetImage(BufferedImage image);
+
+	/**
+	 * Removes the Image from the Mod User. The Image itself should have been sent already.
+	 *
+	 * @param path The Path where the image is located (in your bukkit server directory).
+	 */
+	public void resetImage(String path);
+
+	/**
 	 * Clears all stats.
 	 */
 	public void clearStats();
