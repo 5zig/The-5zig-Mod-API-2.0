@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_8_R1.PacketDataSerializer;
 import net.minecraft.server.v1_8_R1.PacketPlayOutCustomPayload;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Created by 5zig.
@@ -28,8 +29,7 @@ public class ProtocolUtils {
 		dataSerializer.a(stat.getName());
 		dataSerializer.a(stat.getScore());
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -43,8 +43,7 @@ public class ProtocolUtils {
 		dataSerializer.writeInt(PayloadType.RESET.ordinal());
 		dataSerializer.a(stat.getName());
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -56,8 +55,7 @@ public class ProtocolUtils {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.CLEAR.ordinal());
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -71,8 +69,7 @@ public class ProtocolUtils {
 		dataSerializer.writeInt(PayloadType.DISPLAY_NAME.ordinal());
 		dataSerializer.a(displayName);
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -85,8 +82,7 @@ public class ProtocolUtils {
 		dataSerializer.writeInt(PayloadType.LOGIN.ordinal());
 		dataSerializer.writeInt(response.ordinal());
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -102,8 +98,7 @@ public class ProtocolUtils {
 		dataSerializer.a(base64);
 		dataSerializer.writeInt(id);
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -117,8 +112,7 @@ public class ProtocolUtils {
 		dataSerializer.writeInt(PayloadType.IMAGE_ID.ordinal());
 		dataSerializer.writeInt(id);
 
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
@@ -132,8 +126,17 @@ public class ProtocolUtils {
 		dataSerializer.writeInt(PayloadType.RESET_IMAGE.ordinal());
 		dataSerializer.writeInt(id);
 
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
+	}
+
+	/**
+	 * Sends a Custom Plugin Message to the player
+	 * @param player The player that should receive the Plugin message.
+	 * @param dataSerializer The PacketDataSerializer of the Plugin message.
+	 */
+	private static void sendCustomPayload(Player player, PacketDataSerializer dataSerializer) {
 		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(CHANNEL, dataSerializer);
-		((CraftPlayer) modUser.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
 
 	public enum PayloadType {
