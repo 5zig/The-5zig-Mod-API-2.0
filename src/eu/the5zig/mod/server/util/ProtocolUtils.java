@@ -16,6 +16,7 @@ public class ProtocolUtils {
 
 	public static final String CHANNEL = "5zig";
 	public static final int VERSION = 3;
+	public static final String COLOR_CODE = "§5§z§i§g§m§o§d";
 
 	/**
 	 * Sends a stat to a mod user.

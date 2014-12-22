@@ -4,9 +4,11 @@ import com.google.common.collect.Maps;
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.UserManager;
+import eu.the5zig.mod.server.util.ProtocolUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
@@ -25,6 +27,11 @@ public class UserManagerImpl implements UserManager, Listener {
 
 	public UserManagerImpl(The5zigMod plugin) {
 		this.plugin = plugin;
+	}
+
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		event.getPlayer().sendMessage(ProtocolUtils.COLOR_CODE);
 	}
 
 	@EventHandler
