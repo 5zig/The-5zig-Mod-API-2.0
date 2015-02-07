@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public class UserManagerImpl implements UserManager, Listener {
 

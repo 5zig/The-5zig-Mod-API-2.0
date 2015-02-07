@@ -2,7 +2,7 @@ package eu.the5zig.mod.server.api;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public interface Stat {
 

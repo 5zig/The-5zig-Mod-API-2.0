@@ -12,7 +12,7 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public class ClientMessageListener implements PluginMessageListener {
 

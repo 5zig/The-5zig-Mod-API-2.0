@@ -7,7 +7,7 @@ import org.apache.commons.lang3.Validate;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public class StatImpl implements Stat {
 

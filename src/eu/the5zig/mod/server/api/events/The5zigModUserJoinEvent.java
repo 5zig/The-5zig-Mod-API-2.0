@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public class The5zigModUserJoinEvent extends Event {
 

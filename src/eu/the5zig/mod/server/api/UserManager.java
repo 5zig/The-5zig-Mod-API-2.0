@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public interface UserManager {
 

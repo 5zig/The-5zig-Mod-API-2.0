@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 /**
  * Created by 5zig.
- * All rights reserved © 2014
+ * All rights reserved © 2015
  */
 public interface ModUser {
 
