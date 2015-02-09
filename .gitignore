@@ -1,1 +1,3 @@
 *.iml
+javadocs/*
+!README.md
