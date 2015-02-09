@@ -1,4 +1,4 @@
-package eu.the5zig.mod.server.util;
+package eu.the5zig.mod.server.manager;
 
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
@@ -24,7 +24,7 @@ public class ProtocolUtils {
 	 * @param modUser The Mod User that should receive the stat.
 	 * @param stat    The Stat itself.
 	 */
-	public static void sendStat(ModUser modUser, Stat stat) {
+	static void sendStat(ModUser modUser, Stat stat) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.UPDATE.ordinal());
 		dataSerializer.a(stat.getName());
@@ -39,7 +39,7 @@ public class ProtocolUtils {
 	 * @param modUser The Mod User whose stat should be resetted.
 	 * @param stat    The Stat itself.
 	 */
-	public static void resetStat(ModUser modUser, Stat stat) {
+	static void resetStat(ModUser modUser, Stat stat) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.RESET.ordinal());
 		dataSerializer.a(stat.getName());
@@ -52,7 +52,7 @@ public class ProtocolUtils {
 	 *
 	 * @param modUser The Mod User whose stat should be resetted.
 	 */
-	public static void sendClearStats(ModUser modUser) {
+	static void sendClearStats(ModUser modUser) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.CLEAR.ordinal());
 
@@ -65,7 +65,7 @@ public class ProtocolUtils {
 	 * @param modUser     The Mod User that should receive the Display Name.
 	 * @param displayName The new Display Name.
 	 */
-	public static void sendDisplayName(ModUser modUser, String displayName) {
+	static void sendDisplayName(ModUser modUser, String displayName) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.DISPLAY_NAME.ordinal());
 		dataSerializer.a(displayName);
@@ -78,7 +78,7 @@ public class ProtocolUtils {
 	 *
 	 * @param modUser The Mod User that should receive the response
 	 */
-	public static void sendLogin(ModUser modUser, LoginResponse response) {
+	static void sendLogin(ModUser modUser, LoginResponse response) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.LOGIN.ordinal());
 		dataSerializer.writeInt(response.ordinal());
@@ -93,7 +93,7 @@ public class ProtocolUtils {
 	 * @param base64  The base64 String of the Image.
 	 * @param id      The Server-side generated id.
 	 */
-	public static void sendImage(ModUser modUser, String base64, int id) {
+	static void sendImage(ModUser modUser, String base64, int id) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.IMAGE.ordinal());
 		dataSerializer.a(base64);
@@ -108,7 +108,7 @@ public class ProtocolUtils {
 	 * @param modUser The Mod User that should see the image.
 	 * @param id      The Id of the Image.
 	 */
-	public static void sendImage(ModUser modUser, int id) {
+	static void sendImage(ModUser modUser, int id) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.IMAGE_ID.ordinal());
 		dataSerializer.writeInt(id);
@@ -122,7 +122,7 @@ public class ProtocolUtils {
 	 * @param modUser The Mod User where the image should be removed.
 	 * @param id      The Id of the Image.
 	 */
-	public static void resetImage(ModUser modUser, int id) {
+	static void resetImage(ModUser modUser, int id) {
 		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
 		dataSerializer.writeInt(PayloadType.RESET_IMAGE.ordinal());
 		dataSerializer.writeInt(id);
@@ -140,13 +140,13 @@ public class ProtocolUtils {
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
 
-	public enum PayloadType {
+	enum PayloadType {
 
 		UPDATE, RESET, CLEAR, DISPLAY_NAME, LOGIN, IMAGE, IMAGE_ID, RESET_IMAGE
 
 	}
 
-	public enum LoginResponse {
+	enum LoginResponse {
 
 		SUCCESS, OUTDATED_SERVER, OUTDATED_CLIENT
 

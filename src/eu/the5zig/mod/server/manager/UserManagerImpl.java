@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.UserManager;
-import eu.the5zig.mod.server.util.ProtocolUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

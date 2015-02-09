@@ -5,7 +5,6 @@ import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import eu.the5zig.mod.server.api.StatsManager;
-import eu.the5zig.mod.server.util.ProtocolUtils;
 import eu.the5zig.mod.server.util.Utils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;

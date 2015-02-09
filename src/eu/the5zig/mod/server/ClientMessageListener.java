@@ -5,7 +5,7 @@ import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.events.The5zigModUserJoinEvent;
 import eu.the5zig.mod.server.api.events.The5zigModUserLoginEvent;
 import eu.the5zig.mod.server.manager.ModUserImpl;
-import eu.the5zig.mod.server.util.ProtocolUtils;
+import eu.the5zig.mod.server.manager.ProtocolUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;

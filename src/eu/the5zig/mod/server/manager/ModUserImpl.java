@@ -2,7 +2,6 @@ package eu.the5zig.mod.server.manager;
 
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.StatsManager;
-import eu.the5zig.mod.server.util.ProtocolUtils;
 import org.bukkit.entity.Player;
 
 /**

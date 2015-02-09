@@ -2,7 +2,7 @@ package eu.the5zig.mod.server;
 
 import eu.the5zig.mod.server.api.UserManager;
 import eu.the5zig.mod.server.manager.UserManagerImpl;
-import eu.the5zig.mod.server.util.ProtocolUtils;
+import eu.the5zig.mod.server.manager.ProtocolUtils;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
