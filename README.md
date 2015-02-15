@@ -2,7 +2,7 @@ The 5zig Mod API 2.0
 ====================
 The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using CustomPayloads. This will of course only work if the user has got The 5zig Mod installed (http://5zig.eu/downloads).
 
-Temporary download link of the API is here: http://5zig.eu/u/beta-api
+Temporary download link of the API is here: http://5zig.eu/u/beta-api (Last updated on 15.02.2015-10:55)
 Better download management will be added SoonTM.
 
 The API can currently send Stats and even images to the client, within a few lines of code.
