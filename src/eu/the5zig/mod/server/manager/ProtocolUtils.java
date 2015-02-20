@@ -25,8 +25,7 @@ public class ProtocolUtils {
 	 * @param stat    The Stat itself.
 	 */
 	static void sendStat(ModUser modUser, Stat stat) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.UPDATE.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.UPDATE);
 		dataSerializer.a(stat.getName());
 		dataSerializer.a(stat.getScore());
 
@@ -40,8 +39,7 @@ public class ProtocolUtils {
 	 * @param stat    The Stat itself.
 	 */
 	static void resetStat(ModUser modUser, Stat stat) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.RESET.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.RESET);
 		dataSerializer.a(stat.getName());
 
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
@@ -53,8 +51,7 @@ public class ProtocolUtils {
 	 * @param modUser The Mod User whose stat should be resetted.
 	 */
 	static void sendClearStats(ModUser modUser) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.CLEAR.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.CLEAR);
 
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
@@ -66,9 +63,32 @@ public class ProtocolUtils {
 	 * @param displayName The new Display Name.
 	 */
 	static void sendDisplayName(ModUser modUser, String displayName) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.DISPLAY_NAME.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.DISPLAY_NAME);
 		dataSerializer.a(displayName);
+
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
+	}
+
+	/**
+	 * Sends a large Text to a mod user.
+	 *
+	 * @param modUser   The Mod User that should receive the large Text.
+	 * @param largeText The Text that should be send.
+	 */
+	static void sendLargeText(ModUser modUser, String largeText) {
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.LARGE_TEXT);
+		dataSerializer.a(largeText);
+
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
+	}
+
+	/**
+	 * Resets the Large Text of a mod user.
+	 *
+	 * @param modUser The Mod User whose Text should be removed.
+	 */
+	static void resetLargeText(ModUser modUser) {
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.RESET_LARGE_TEXT);
 
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
@@ -79,8 +99,7 @@ public class ProtocolUtils {
 	 * @param modUser The Mod User that should receive the response
 	 */
 	static void sendLogin(ModUser modUser, LoginResponse response) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.LOGIN.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.LOGIN);
 		dataSerializer.writeInt(response.ordinal());
 
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
@@ -94,8 +113,7 @@ public class ProtocolUtils {
 	 * @param id      The Server-side generated id.
 	 */
 	static void sendImage(ModUser modUser, String base64, int id) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.IMAGE.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.IMAGE);
 		dataSerializer.a(base64);
 		dataSerializer.writeInt(id);
 
@@ -109,8 +127,7 @@ public class ProtocolUtils {
 	 * @param id      The Id of the Image.
 	 */
 	static void sendImage(ModUser modUser, int id) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.IMAGE_ID.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.IMAGE_ID);
 		dataSerializer.writeInt(id);
 
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
@@ -123,16 +140,31 @@ public class ProtocolUtils {
 	 * @param id      The Id of the Image.
 	 */
 	static void resetImage(ModUser modUser, int id) {
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		dataSerializer.writeInt(PayloadType.RESET_IMAGE.ordinal());
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.RESET_IMAGE);
 		dataSerializer.writeInt(id);
 
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
 	/**
+	 * Creates a new PacketDataSerializer with an empty Buffer.
+	 *
+	 * @return a new PacketDataSerializer.
+	 */
+	private static PacketDataSerializer newDataSerializer() {
+		return new PacketDataSerializer(Unpooled.buffer());
+	}
+
+	private static PacketDataSerializer newDataSerializer(PayloadType payloadType) {
+		PacketDataSerializer packetDataSerializer = newDataSerializer();
+		packetDataSerializer.writeInt(payloadType.ordinal());
+		return packetDataSerializer;
+	}
+
+	/**
 	 * Sends a Custom Plugin Message to the player
-	 * @param player The player that should receive the Plugin message.
+	 *
+	 * @param player         The player that should receive the Plugin message.
 	 * @param dataSerializer The PacketDataSerializer of the Plugin message.
 	 */
 	private static void sendCustomPayload(Player player, PacketDataSerializer dataSerializer) {
@@ -142,7 +174,7 @@ public class ProtocolUtils {
 
 	enum PayloadType {
 
-		UPDATE, RESET, CLEAR, DISPLAY_NAME, LOGIN, IMAGE, IMAGE_ID, RESET_IMAGE
+		UPDATE, RESET, CLEAR, DISPLAY_NAME, LOGIN, IMAGE, IMAGE_ID, RESET_IMAGE, LARGE_TEXT, RESET_LARGE_TEXT
 
 	}
 

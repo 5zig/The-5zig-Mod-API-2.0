@@ -48,6 +48,25 @@ public interface StatsManager {
 	public void setDisplayName(String displayName);
 
 	/**
+	 * Sends a Large Text to the Client. The Text will be displayed like a Minecraft 1.8 Title, but it is a lot smaller, and therefore more text can be displayed.
+	 * The Text will be also splitted into multiple lines by the client itself, if it is too long. The Large Text still cannot be longer than 250 characters.
+	 * <p/>
+	 * Use {@code \n} to force a new line. The client can render a maximum of 10 lines!
+	 * <p/>
+	 * You can only have one large text at the same time. Calling this method, of there is still a large text active will simply override it.
+	 * <p/>
+	 * Use {@link eu.the5zig.mod.server.api.StatsManager#resetLargeText()} to reset the Large Text.
+	 *
+	 * @param text The text that should be displayed.
+	 */
+	public void sendLargeText(String text);
+
+	/**
+	 * Resets a Large Text if there is one.
+	 */
+	public void resetLargeText();
+
+	/**
 	 * Sends an Image to the Mod User. The Image will be sent as Base64 encoded String.
 	 *
 	 * @param image The BufferedImage that should be sent.
@@ -76,7 +95,7 @@ public interface StatsManager {
 	public void resetImage(String path);
 
 	/**
-	 * Clears all stats.
+	 * Clears all stats. Does <b>not</b> reset the Large Text!
 	 */
 	public void clearStats();
 

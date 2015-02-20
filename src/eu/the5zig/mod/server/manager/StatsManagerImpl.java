@@ -23,6 +23,9 @@ public class StatsManagerImpl implements StatsManager {
 
 	private ModUser modUser;
 	private String displayName;
+
+	private String largeText;
+
 	private HashMap<String, Stat> stats;
 	private HashMap<String, Integer> images;
 	private int idCounter = 0;
@@ -79,6 +82,24 @@ public class StatsManagerImpl implements StatsManager {
 
 		this.displayName = displayName;
 		ProtocolUtils.sendDisplayName(modUser, displayName);
+	}
+
+	@Override
+	public void sendLargeText(String text) {
+		Validate.notNull(text, "Text cannot be null.");
+		Validate.notEmpty(text, "Text cannot be empty.");
+		Validate.validState(text.length() <= 250, "Length of Text cannot exceed 150 characters.");
+
+		this.largeText = text;
+		ProtocolUtils.sendLargeText(modUser, largeText);
+	}
+
+	@Override
+	public void resetLargeText() {
+		if (largeText == null)
+			return;
+		largeText = null;
+		ProtocolUtils.resetLargeText(modUser);
 	}
 
 	@Override
