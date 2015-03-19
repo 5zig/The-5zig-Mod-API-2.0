@@ -3,9 +3,9 @@ package eu.the5zig.mod.server.manager;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_8_R1.PacketDataSerializer;
-import net.minecraft.server.v1_8_R1.PacketPlayOutCustomPayload;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import net.minecraft.server.v1_8_R2.PacketDataSerializer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutCustomPayload;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 /**
