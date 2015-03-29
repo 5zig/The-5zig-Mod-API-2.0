@@ -1,8 +1,9 @@
 package eu.the5zig.mod.server;
 
 import eu.the5zig.mod.server.api.UserManager;
-import eu.the5zig.mod.server.manager.UserManagerImpl;
-import eu.the5zig.mod.server.manager.ProtocolUtils;
+import eu.the5zig.mod.server.backend.ClientMessageListener;
+import eu.the5zig.mod.server.backend.UserManagerImpl;
+import eu.the5zig.mod.server.backend.ProtocolUtils;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,7 +31,7 @@ public class The5zigMod extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 
-		userManager = new UserManagerImpl(this);
+		userManager = new UserManagerImpl();
 
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvents((Listener) userManager, this);

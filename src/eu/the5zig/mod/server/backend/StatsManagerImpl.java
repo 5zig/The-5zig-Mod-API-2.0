@@ -1,4 +1,4 @@
-package eu.the5zig.mod.server.manager;
+package eu.the5zig.mod.server.backend;
 
 import com.google.common.collect.Maps;
 import eu.the5zig.mod.server.The5zigMod;

@@ -1,11 +1,10 @@
-package eu.the5zig.mod.server;
+package eu.the5zig.mod.server.backend;
 
 import com.google.common.base.Charsets;
+import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.events.The5zigModUserJoinEvent;
 import eu.the5zig.mod.server.api.events.The5zigModUserLoginEvent;
-import eu.the5zig.mod.server.manager.ModUserImpl;
-import eu.the5zig.mod.server.manager.ProtocolUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -45,14 +44,16 @@ public class ClientMessageListener implements PluginMessageListener {
 	 */
 	private void handlePluginMessage(Player player, String message) {
 		if (message.startsWith("l:")) {
-			if (plugin.getUserManager().isModUser(player)) return;
+			if (plugin.getUserManager().isModUser(player))
+				return;
 			The5zigModUserLoginEvent event = new The5zigModUserLoginEvent(player);
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			if (!event.isCancelled()) {
 				try {
 					ModUser modUser = new ModUserImpl(player, Integer.parseInt(message.replace("l:", "")));
-					if (!modUser.isConnected()) return;
-					plugin.getUserManager().addUser(modUser);
+					if (!modUser.isConnected())
+						return;
+					((UserManagerImpl) plugin.getUserManager()).addUser(modUser);
 					plugin.getLogger().info("Player " + player.getName() + " connected using the 5zig Mod!");
 					Bukkit.getServer().getPluginManager().callEvent(new The5zigModUserJoinEvent(modUser));
 				} catch (NumberFormatException e) {

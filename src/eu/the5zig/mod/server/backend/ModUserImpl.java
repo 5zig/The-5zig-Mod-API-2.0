@@ -1,4 +1,4 @@
-package eu.the5zig.mod.server.manager;
+package eu.the5zig.mod.server.backend;
 
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.StatsManager;
@@ -14,7 +14,7 @@ public class ModUserImpl implements ModUser {
 	private final Player player;
 	private StatsManager statsManager;
 
-	public ModUserImpl(Player player, int version) {
+	ModUserImpl(Player player, int version) {
 		this.player = player;
 		statsManager = new StatsManagerImpl(this);
 		ProtocolUtils.LoginResponse loginResponse = ProtocolUtils.LoginResponse.SUCCESS;

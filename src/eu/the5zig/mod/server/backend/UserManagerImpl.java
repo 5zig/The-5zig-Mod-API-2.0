@@ -1,7 +1,6 @@
-package eu.the5zig.mod.server.manager;
+package eu.the5zig.mod.server.backend;
 
 import com.google.common.collect.Maps;
-import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.UserManager;
 import org.bukkit.entity.Player;
@@ -10,10 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by 5zig.
@@ -21,11 +17,9 @@ import java.util.UUID;
  */
 public class UserManagerImpl implements UserManager, Listener {
 
-	private The5zigMod plugin;
 	private HashMap<UUID, ModUser> onlineModUsers = Maps.newHashMap();
 
-	public UserManagerImpl(The5zigMod plugin) {
-		this.plugin = plugin;
+	public UserManagerImpl() {
 	}
 
 	@EventHandler
@@ -44,20 +38,12 @@ public class UserManagerImpl implements UserManager, Listener {
 	}
 
 	@Override
-	public Set<ModUser> getOnlineModUsers() {
-		Set<ModUser> modUsers = new HashSet<ModUser>();
-		modUsers.addAll(onlineModUsers.values());
-		return modUsers;
+	public Collection<ModUser> getOnlineModUsers() {
+		return Collections.unmodifiableCollection(onlineModUsers.values());
 	}
 
-	@Override
 	public void addUser(ModUser modUser) {
 		onlineModUsers.put(modUser.getPlayer().getUniqueId(), modUser);
-	}
-
-	@Override
-	public void removeUser(ModUser modUser) {
-		onlineModUsers.remove(modUser.getPlayer().getUniqueId());
 	}
 
 	@Override

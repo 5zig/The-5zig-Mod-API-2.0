@@ -1,4 +1,4 @@
-package eu.the5zig.mod.server.manager;
+package eu.the5zig.mod.server.backend;
 
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
