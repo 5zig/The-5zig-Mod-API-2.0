@@ -31,7 +31,7 @@ public class ClientMessageListener implements PluginMessageListener {
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
 		// Check if the channel is equal to '5zig'
-		if (channel.equals(ProtocolUtils.CHANNEL)) {
+		if (channel.equals(The5zigMod.CHANNEL)) {
 			handlePluginMessage(player, new String(bytes, Charsets.UTF_8));
 		}
 	}

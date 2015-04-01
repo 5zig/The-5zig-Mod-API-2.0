@@ -57,7 +57,7 @@ public class StatsManagerImpl implements StatsManager {
 
 		if (!hasStat(name)) return;
 		Stat stat = stats.get(name);
-		ProtocolUtils.resetStat(modUser, stat);
+		The5zigMod.getInstance().getProtocolUtils().resetStat(modUser, stat);
 		stats.remove(name);
 	}
 
@@ -81,7 +81,7 @@ public class StatsManagerImpl implements StatsManager {
 		Validate.validState(displayName.length() <= 150, "Length of Display Name cannot exceed 150 characters.");
 
 		this.displayName = displayName;
-		ProtocolUtils.sendDisplayName(modUser, displayName);
+		The5zigMod.getInstance().getProtocolUtils().sendDisplayName(modUser, displayName);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class StatsManagerImpl implements StatsManager {
 		Validate.validState(text.length() <= 250, "Length of Text cannot exceed 150 characters.");
 
 		this.largeText = text;
-		ProtocolUtils.sendLargeText(modUser, largeText);
+		The5zigMod.getInstance().getProtocolUtils().sendLargeText(modUser, largeText);
 	}
 
 	@Override
@@ -99,14 +99,14 @@ public class StatsManagerImpl implements StatsManager {
 		if (largeText == null)
 			return;
 		largeText = null;
-		ProtocolUtils.resetLargeText(modUser);
+		The5zigMod.getInstance().getProtocolUtils().resetLargeText(modUser);
 	}
 
 	@Override
 	public void clearStats() {
 		if (stats.isEmpty()) return;
 		stats.clear();
-		ProtocolUtils.sendClearStats(modUser);
+		The5zigMod.getInstance().getProtocolUtils().sendClearStats(modUser);
 	}
 
 	@Override
@@ -118,10 +118,10 @@ public class StatsManagerImpl implements StatsManager {
 		try {
 			String base64 = Utils.getBase64(image);
 			if (images.containsKey(base64)) {
-				ProtocolUtils.sendImage(modUser, images.get(base64));
+				The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, images.get(base64));
 			} else {
 				images.put(base64, idCounter);
-				ProtocolUtils.sendImage(modUser, Utils.getBase64(image), idCounter);
+				The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, Utils.getBase64(image), idCounter);
 				idCounter++;
 			}
 		} catch (IOException e) {
@@ -150,7 +150,7 @@ public class StatsManagerImpl implements StatsManager {
 		try {
 			String base64 = Utils.getBase64(image);
 			if (images.containsKey(base64)) {
-				ProtocolUtils.resetImage(modUser, images.get(base64));
+				The5zigMod.getInstance().getProtocolUtils().resetImage(modUser, images.get(base64));
 				images.remove(base64);
 			}
 		} catch (IOException e) {

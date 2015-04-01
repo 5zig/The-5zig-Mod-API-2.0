@@ -1,7 +1,9 @@
 package eu.the5zig.mod.server.backend;
 
+import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.StatsManager;
+import eu.the5zig.mod.server.util.protocol.IProtocolUtils;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,11 +19,13 @@ public class ModUserImpl implements ModUser {
 	ModUserImpl(Player player, int version) {
 		this.player = player;
 		statsManager = new StatsManagerImpl(this);
-		ProtocolUtils.LoginResponse loginResponse = ProtocolUtils.LoginResponse.SUCCESS;
-		if (ProtocolUtils.VERSION < version) loginResponse = ProtocolUtils.LoginResponse.OUTDATED_SERVER;
-		if (ProtocolUtils.VERSION > version) loginResponse = ProtocolUtils.LoginResponse.OUTDATED_CLIENT;
-		ProtocolUtils.sendLogin(this, loginResponse);
-		connected = loginResponse == ProtocolUtils.LoginResponse.SUCCESS;
+		IProtocolUtils.LoginResponse loginResponse = IProtocolUtils.LoginResponse.SUCCESS;
+		if (The5zigMod.VERSION < version)
+			loginResponse = IProtocolUtils.LoginResponse.OUTDATED_SERVER;
+		if (The5zigMod.VERSION > version)
+			loginResponse = IProtocolUtils.LoginResponse.OUTDATED_CLIENT;
+		The5zigMod.getInstance().getProtocolUtils().sendLogin(this, loginResponse);
+		connected = loginResponse == IProtocolUtils.LoginResponse.SUCCESS;
 	}
 
 	@Override

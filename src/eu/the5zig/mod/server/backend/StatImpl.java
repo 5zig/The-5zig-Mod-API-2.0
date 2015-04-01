@@ -1,5 +1,6 @@
 package eu.the5zig.mod.server.backend;
 
+import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import org.apache.commons.lang3.Validate;
@@ -31,7 +32,7 @@ public class StatImpl implements Stat {
 		Validate.validState(score.length() <= 100, "Length of score cannot exceed 100 characters.");
 
 		this.score = score;
-		ProtocolUtils.sendStat(modUser, this);
+		The5zigMod.getInstance().getProtocolUtils().sendStat(modUser, this);
 	}
 
 	@Override
