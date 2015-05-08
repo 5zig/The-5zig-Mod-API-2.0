@@ -5,7 +5,7 @@ The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin 
 Download link of the API is here: http://5zig.eu/u/api (Last updated on 08.05.2015-20:00)
 
 The API can currently send Stats and even images to the client, within a few lines of code.
-On the client side, that could look like this: ![The 5zig Mod API](http://5zig.eu/scr/v1elhxs.jpg) ![The 5zig Mod API](http://5zig.eu/scr/fiYJpk7.jpg)
+On the client side, that could look like this: ![The 5zig Mod API](http://5zig.eu/scr/fiYJpk7.jpg)
 
 
 The API provides 2 Custom Events: The5zigModUserLoginEvent and The5zigModUserJoinEvent.
