@@ -13,20 +13,20 @@ public interface ModUser {
 	 *
 	 * @return The Player
 	 */
-	public Player getPlayer();
+	Player getPlayer();
 
 	/**
 	 * Gets the Stats Manager of the Player. The Stats Manager stores all Stats of a player and sends them to it
 	 *
 	 * @return The Stats Manager.
 	 */
-	public StatsManager getStatsManager();
+	StatsManager getStatsManager();
 
 	/**
 	 * Checks if the ModUser is currently connected to the ServerAPI.
 	 *
 	 * @return If the ModUser is currently connected to the ServerAPI.
 	 */
-	public boolean isConnected();
+	boolean isConnected();
 
 }

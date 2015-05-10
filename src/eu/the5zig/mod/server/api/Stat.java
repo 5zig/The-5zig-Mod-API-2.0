@@ -11,20 +11,20 @@ public interface Stat {
 	 *
 	 * @return The score if the Stat
 	 */
-	public String getScore();
+	String getScore();
 
 	/**
 	 * Sets the score of the stat and sends it to the client. Score length cannot exceed 100 characters.
 	 *
 	 * @param score The score that should be sent.
 	 */
-	public void setScore(String score);
+	void setScore(String score);
 
 	/**
 	 * Returns the name of the Stat.
 	 *
 	 * @return The name of the Stat.
 	 */
-	public String getName();
+	String getName();
 
 }

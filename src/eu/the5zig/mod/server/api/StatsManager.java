@@ -15,14 +15,14 @@ public interface StatsManager {
 	 * @return The Stat.
 	 * @throws RuntimeException if you want to add more then 10 stat items.
 	 */
-	public Stat getStat(String name);
+	Stat getStat(String name);
 
 	/**
 	 * Resets a Stat of the Player specified by its name
 	 *
 	 * @param name The name of the stat.
 	 */
-	public void resetStat(String name);
+	void resetStat(String name);
 
 	/**
 	 * Checks if the Stat already exists.
@@ -30,14 +30,14 @@ public interface StatsManager {
 	 * @param name The name of the stat.
 	 * @return If the Stat exists.
 	 */
-	public boolean hasStat(String name);
+	boolean hasStat(String name);
 
 	/**
 	 * Gets the Display Name of the Stat. The Display Name is shown as a 'Label' or Title for all following stats.
 	 *
 	 * @return The Display Name of the Stat.
 	 */
-	public String getDisplayName();
+	String getDisplayName();
 
 	/**
 	 * Sets the Display Name of the Stat. The Display Name is shown as a 'Label' or Title for all following stats.<br>
@@ -45,7 +45,7 @@ public interface StatsManager {
 	 *
 	 * @param displayName The new Display Name.
 	 */
-	public void setDisplayName(String displayName);
+	void setDisplayName(String displayName);
 
 	/**
 	 * Sends a Large Text to the Client. The Text will be displayed like a Minecraft 1.8 Title, but it is a lot smaller, and therefore more text can be displayed.
@@ -59,44 +59,53 @@ public interface StatsManager {
 	 *
 	 * @param text The text that should be displayed.
 	 */
-	public void sendLargeText(String text);
+	void sendLargeText(String text);
 
 	/**
 	 * Resets a Large Text if there is one.
 	 */
-	public void resetLargeText();
+	void resetLargeText();
 
 	/**
 	 * Sends an Image to the Mod User. The Image will be sent as Base64 encoded String.
+	 * <p/>
+	 * Max. image size is {@link Short#MAX_VALUE}. The image must be 64x64 pixels.
+	 * <p/>
+	 * This method should be called asynchronously.
 	 *
 	 * @param image The BufferedImage that should be sent.
+	 * @return the base64 String of the Image.
 	 */
-	public void sendImage(BufferedImage image);
+	String sendImage(BufferedImage image);
 
 	/**
-	 * Sends an Image to the Mod User. The Image will be sent as Base64 encoded String.
+	 * Sends an Image to the Mod User.
+	 * It is recommended to use this method over {@link #sendImage(BufferedImage image)} and to cache the Base64String
+	 * so that the server doesn't have to read the image from the hard drive every time and recalculate the Base64String.
+	 * <p/>
+	 * Note: This method is not 100% safe, as it doesn't do any checks of the base64 String and the image.
 	 *
-	 * @param path The Path where the image is located (in your bukkit server directory).
+	 * @param base64 The base64 encoded String of the image.
 	 */
-	public void sendImage(String path);
+	void sendImage(String base64);
 
 	/**
 	 * Removes the Image from the Mod User. The Image itself should have been sent already.
 	 *
 	 * @param image The BufferedImage that should be removed.
 	 */
-	public void resetImage(BufferedImage image);
+	void resetImage(BufferedImage image);
 
 	/**
 	 * Removes the Image from the Mod User. The Image itself should have been sent already.
 	 *
 	 * @param path The Path where the image is located (in your bukkit server directory).
 	 */
-	public void resetImage(String path);
+	void resetImage(String path);
 
 	/**
 	 * Clears all stats. Does <b>not</b> reset the Large Text!
 	 */
-	public void clearStats();
+	void clearStats();
 
 }

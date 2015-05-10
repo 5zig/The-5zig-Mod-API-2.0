@@ -1,5 +1,5 @@
 name: The 5zig Mod API
-version: 2.0
+version: 2.0.1
 main: eu.the5zig.mod.server.The5zigMod
 author: 5zig
 website: http://5zig.eu

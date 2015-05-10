@@ -30,7 +30,7 @@ public class StatsManagerImpl implements StatsManager {
 	private HashMap<String, Integer> images;
 	private int idCounter = 0;
 
-	public StatsManagerImpl(ModUser modUser) {
+	StatsManagerImpl(ModUser modUser) {
 		this.modUser = modUser;
 		this.stats = Maps.newHashMap();
 		this.images = Maps.newHashMap();
@@ -44,7 +44,8 @@ public class StatsManagerImpl implements StatsManager {
 		Validate.validState(name.length() <= 100, "Length of Stat name cannot exceed 100 characters.");
 
 		if (!hasStat(name)) {
-			if (stats.size() >= 10) throw new UnsupportedOperationException("You can only create up to 10 stats per player!");
+			if (stats.size() >= 10)
+				throw new UnsupportedOperationException("You can only create up to 10 stats per player!");
 			stats.put(name, new StatImpl(name, modUser));
 		}
 		return stats.get(name);
@@ -55,7 +56,8 @@ public class StatsManagerImpl implements StatsManager {
 		Validate.notNull(name, "Stat name cannot be null.");
 		Validate.notEmpty(name, "Stat name cannot be empty.");
 
-		if (!hasStat(name)) return;
+		if (!hasStat(name))
+			return;
 		Stat stat = stats.get(name);
 		The5zigMod.getInstance().getProtocolUtils().resetStat(modUser, stat);
 		stats.remove(name);
@@ -104,40 +106,40 @@ public class StatsManagerImpl implements StatsManager {
 
 	@Override
 	public void clearStats() {
-		if (stats.isEmpty()) return;
+		if (stats.isEmpty())
+			return;
 		stats.clear();
 		The5zigMod.getInstance().getProtocolUtils().sendClearStats(modUser);
 	}
 
 	@Override
-	public void sendImage(BufferedImage image) {
+	public String sendImage(BufferedImage image) {
 		Validate.notNull(image, "Image cannot be null.");
 		Validate.validState(image.getWidth() == 64, "Image width must be 64 pixels.");
 		Validate.validState(image.getHeight() == 64, "Image height must be 64 pixels.");
+		Utils.checkImageSize(image, Short.MAX_VALUE);
 
 		try {
-			String base64 = Utils.getBase64(image);
-			if (images.containsKey(base64)) {
-				The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, images.get(base64));
-			} else {
-				images.put(base64, idCounter);
-				The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, Utils.getBase64(image), idCounter);
-				idCounter++;
-			}
+			final String base64 = Utils.getBase64(image);
+			sendImage(base64);
+			return base64;
 		} catch (IOException e) {
 			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
+			return null;
 		}
 	}
 
 	@Override
-	public void sendImage(String path) {
+	public void sendImage(String base64) {
 		Validate.notNull(displayName, "Path cannot be null.");
 		Validate.notEmpty(displayName, "Path cannot be empty.");
 
-		try {
-			sendImage(ImageIO.read(new File(path)));
-		} catch (IOException e) {
-			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
+		if (images.containsKey(base64)) {
+			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, images.get(base64));
+		} else {
+			images.put(base64, idCounter);
+			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, base64, idCounter);
+			idCounter++;
 		}
 	}
 
