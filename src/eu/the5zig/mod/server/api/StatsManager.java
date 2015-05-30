@@ -76,36 +76,35 @@ public interface StatsManager {
 	 * @param image The BufferedImage that should be sent.
 	 * @return the base64 String of the Image.
 	 */
-	String sendImage(BufferedImage image);
+	void sendImage(BufferedImage image);
 
 	/**
 	 * Sends an Image to the Mod User.
-	 * It is recommended to use this method over {@link #sendImage(BufferedImage image)} and to cache the Base64String
+	 * The image needs to be already registered through {@link ImageRegistry#register(String, BufferedImage)}
+	 * It is recommended to use this method over {@link #sendImage(BufferedImage image)}
 	 * so that the server doesn't have to read the image from the hard drive every time and recalculate the Base64String.
 	 * <p/>
-	 * Note: This method is not 100% safe, as it doesn't do any checks of the base64 String and the image.
 	 *
-	 * @param base64 The base64 encoded String of the image.
+	 * @param key The registered key of the image.
 	 */
-	void sendImage(String base64);
+	void sendImage(String key);
 
 	/**
-	 * Removes the Image from the Mod User. The Image itself should have been sent already.
-	 *
-	 * @param image The BufferedImage that should be removed.
+	 * Removes the Image from the Mod User.
 	 */
-	void resetImage(BufferedImage image);
-
-	/**
-	 * Removes the Image from the Mod User. The Image itself should have been sent already.
-	 *
-	 * @param path The Path where the image is located (in your bukkit server directory).
-	 */
-	void resetImage(String path);
+	void resetImage();
 
 	/**
 	 * Clears all stats. Does <b>not</b> reset the Large Text!
 	 */
 	void clearStats();
+	
+	/**
+	 * Sends an overlay message to the player. The message may not be longer than 200 characters and will be
+	 * splitted onto the second line automatically. Use the \n character to force split the message onto a new line.
+	 * 
+	 * @param message The message that should be displayed.
+	 */
+	void sendOverlay(String message);
 
 }

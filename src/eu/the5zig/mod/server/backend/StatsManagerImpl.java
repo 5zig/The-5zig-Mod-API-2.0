@@ -1,19 +1,22 @@
 package eu.the5zig.mod.server.backend;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.bukkit.Bukkit;
+import org.spigotmc.AsyncCatcher;
+
 import com.google.common.collect.Maps;
+
 import eu.the5zig.mod.server.The5zigMod;
+import eu.the5zig.mod.server.api.ImageRegistry;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import eu.the5zig.mod.server.api.StatsManager;
 import eu.the5zig.mod.server.util.Utils;
-import org.apache.commons.lang3.Validate;
-import org.bukkit.Bukkit;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by 5zig.
@@ -28,7 +31,6 @@ public class StatsManagerImpl implements StatsManager {
 
 	private HashMap<String, Stat> stats;
 	private HashMap<String, Integer> images;
-	private int idCounter = 0;
 
 	StatsManagerImpl(ModUser modUser) {
 		this.modUser = modUser;
@@ -113,62 +115,47 @@ public class StatsManagerImpl implements StatsManager {
 	}
 
 	@Override
-	public String sendImage(BufferedImage image) {
+	public void sendImage(String key) {
+		ImageRegistry imageRegistry = The5zigMod.getInstance().getImageRegistry();
+		
+		AsyncCatcher.catchOp("image sent");
+		Validate.validState(imageRegistry.isRegistered(key), "Key hasn't been registered yet.");
+
+		if (!images.containsKey(key)) {
+			images.put(key, imageRegistry.getId(key));
+			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, imageRegistry.getData(key), imageRegistry.getId(key));
+		} else {
+			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, images.get(key));
+		}
+	}
+	
+	@Override
+	public void sendImage(BufferedImage image) {
 		Validate.notNull(image, "Image cannot be null.");
 		Validate.validState(image.getWidth() == 64, "Image width must be 64 pixels.");
 		Validate.validState(image.getHeight() == 64, "Image height must be 64 pixels.");
 		Utils.checkImageSize(image, Short.MAX_VALUE);
-
+		
 		try {
 			final String base64 = Utils.getBase64(image);
-			sendImage(base64);
-			return base64;
+			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, base64, ((ImageRegistryImpl)The5zigMod.getInstance().getImageRegistry()).getNextId());
 		} catch (IOException e) {
-			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
-			return null;
+			LogManager.getLogger().warn("Could not send Image to " + modUser.getPlayer().getName(), e);
 		}
 	}
 
 	@Override
-	public void sendImage(String base64) {
-		Validate.notNull(displayName, "Path cannot be null.");
-		Validate.notEmpty(displayName, "Path cannot be empty.");
-
-		if (images.containsKey(base64)) {
-			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, images.get(base64));
-		} else {
-			images.put(base64, idCounter);
-			The5zigMod.getInstance().getProtocolUtils().sendImage(modUser, base64, idCounter);
-			idCounter++;
-		}
+	public void resetImage() {
+		The5zigMod.getInstance().getProtocolUtils().resetImage(modUser);
 	}
-
+	
 	@Override
-	public void resetImage(BufferedImage image) {
-		Validate.notNull(image, "Image cannot be null.");
-		Validate.validState(image.getWidth() == 64, "Image width must be 64 pixels.");
-		Validate.validState(image.getHeight() == 64, "Image height must be 64 pixels.");
-
-		try {
-			String base64 = Utils.getBase64(image);
-			if (images.containsKey(base64)) {
-				The5zigMod.getInstance().getProtocolUtils().resetImage(modUser, images.get(base64));
-				images.remove(base64);
-			}
-		} catch (IOException e) {
-			The5zigMod.getInstance().getLogger().warning("Could not send Image to " + modUser.getPlayer().getName() + ": " + e.getMessage());
-		}
+	public void sendOverlay(String message) {
+		Validate.notNull(message, "Message cannot be null.");
+		Validate.notEmpty(message, "Message cannot be empty.");
+		Validate.validState(message.length() <= 200, "Message cannot be longer than 200 characters.");
+		
+		The5zigMod.getInstance().getProtocolUtils().sendOverlay(modUser, message);
 	}
 
-	@Override
-	public void resetImage(String path) {
-		Validate.notNull(displayName, "Path cannot be null.");
-		Validate.notEmpty(displayName, "Path cannot be empty.");
-
-		try {
-			resetImage(ImageIO.read(new File(path)));
-		} catch (IOException e) {
-			The5zigMod.getInstance().getLogger().warning("Could not remove Image of " + modUser.getPlayer().getName() + ": " + e.getMessage());
-		}
-	}
 }

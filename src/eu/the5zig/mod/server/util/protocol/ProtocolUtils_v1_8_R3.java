@@ -1,20 +1,21 @@
 package eu.the5zig.mod.server.util.protocol;
 
+import io.netty.buffer.Unpooled;
+import net.minecraft.server.v1_8_R3.PacketDataSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutCustomPayload;
+
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
-import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_8_R1.PacketDataSerializer;
-import net.minecraft.server.v1_8_R1.PacketPlayOutCustomPayload;
-
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 /**
  * Created by 5zig.
  * All rights reserved © 2015
  */
-public class ProtocolUtils_v1_8_R1 implements IProtocolUtils {
+public class ProtocolUtils_v1_8_R3 implements IProtocolUtils {
 
 	@Override
 	public void requestRegister(Player player) {
@@ -111,7 +112,7 @@ public class ProtocolUtils_v1_8_R1 implements IProtocolUtils {
 		packetDataSerializer.writeInt(payloadType.ordinal());
 		return packetDataSerializer;
 	}
-
+	
 	private void sendCustomPayload(Player player, String channel, PacketDataSerializer dataSerializer) {
 		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(channel, dataSerializer);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);

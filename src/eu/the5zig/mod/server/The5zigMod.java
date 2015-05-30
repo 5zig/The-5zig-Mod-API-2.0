@@ -1,12 +1,16 @@
 package eu.the5zig.mod.server;
 
-import eu.the5zig.mod.server.api.UserManager;
-import eu.the5zig.mod.server.backend.ClientMessageListener;
-import eu.the5zig.mod.server.backend.UserManagerImpl;
-import eu.the5zig.mod.server.util.protocol.IProtocolUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import eu.the5zig.mod.server.api.ImageRegistry;
+import eu.the5zig.mod.server.api.UserManager;
+import eu.the5zig.mod.server.backend.ClientMessageListener;
+import eu.the5zig.mod.server.backend.ImageRegistryImpl;
+import eu.the5zig.mod.server.backend.UserManagerImpl;
+import eu.the5zig.mod.server.util.protocol.IProtocolUtils;
 
 /**
  * Created by 5zig.
@@ -15,11 +19,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class The5zigMod extends JavaPlugin {
 
 	public static final String CHANNEL = "5zig";
-	public static final int VERSION = 3;
-	public static final String COLOR_CODE = "§z §i §g";
+	public static final String CHANNEL_REGISTER = "5zig_REG";
+	public static final int VERSION = 1;
+	
 	private static The5zigMod instance;
 	private UserManager userManager;
 	private IProtocolUtils protocolUtils;
+	private ImageRegistry imageRegistry;
 
 	/**
 	 * Returns the current instance of the Server API.
@@ -37,7 +43,8 @@ public class The5zigMod extends JavaPlugin {
 		if (!setupHooks())
 			return;
 
-		userManager = new UserManagerImpl();
+		userManager = new UserManagerImpl(this);
+		imageRegistry = new ImageRegistryImpl();
 
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvents((Listener) userManager, this);
@@ -45,6 +52,10 @@ public class The5zigMod extends JavaPlugin {
 		getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
 		getServer().getMessenger().registerIncomingPluginChannel(this, CHANNEL, new ClientMessageListener(this));
 		getLogger().info("Listening on channel " + CHANNEL);
+		
+		for (Player player : getServer().getOnlinePlayers()) {
+			protocolUtils.requestRegister(player);
+		}
 
 		getLogger().info("The 5zig Mod Server API v" + getDescription().getVersion() + " has been enabled!");
 	}
@@ -78,7 +89,7 @@ public class The5zigMod extends JavaPlugin {
 	/**
 	 * Gets the UserManager. The Manager class stores all connected 5zig Mod users in a list
 	 *
-	 * @return The User Manager class
+	 * @return The User Manager class.
 	 */
 	public UserManager getUserManager() {
 		return userManager;
@@ -86,5 +97,14 @@ public class The5zigMod extends JavaPlugin {
 
 	public IProtocolUtils getProtocolUtils() {
 		return protocolUtils;
+	}
+	
+	/**
+	 * Gets the ImageRegistry. This class is used to register all images that should be sent to the player.
+	 * 
+	 * @return The Image Registry class.
+	 */
+	public ImageRegistry getImageRegistry() {
+		return imageRegistry;
 	}
 }

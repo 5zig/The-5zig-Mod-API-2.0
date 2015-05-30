@@ -1,13 +1,13 @@
 package eu.the5zig.mod.server.backend;
 
-import com.google.common.base.Charsets;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.events.The5zigModUserJoinEvent;
 import eu.the5zig.mod.server.api.events.The5zigModUserLoginEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 
 /**
  * Created by 5zig.
@@ -32,7 +32,7 @@ public class ClientMessageListener implements PluginMessageListener {
 	public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
 		// Check if the channel is equal to '5zig'
 		if (channel.equals(The5zigMod.CHANNEL)) {
-			handlePluginMessage(player, new String(bytes, Charsets.UTF_8));
+			handlePluginMessage(player, bytes);
 		}
 	}
 
@@ -42,23 +42,17 @@ public class ClientMessageListener implements PluginMessageListener {
 	 * @param player  The user of the 5zig Mod
 	 * @param message The plugin message converted to a String
 	 */
-	private void handlePluginMessage(Player player, String message) {
-		if (message.startsWith("l:")) {
+	private void handlePluginMessage(Player player, byte[] message) {
+		if (message.length == 1 && message[0] == 0x01) {
 			if (plugin.getUserManager().isModUser(player))
 				return;
 			The5zigModUserLoginEvent event = new The5zigModUserLoginEvent(player);
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			if (!event.isCancelled()) {
-				try {
-					ModUser modUser = new ModUserImpl(player, Integer.parseInt(message.replace("l:", "")));
-					if (!modUser.isConnected())
-						return;
-					((UserManagerImpl) plugin.getUserManager()).addUser(modUser);
-					plugin.getLogger().info("Player " + player.getName() + " connected using the 5zig Mod!");
-					Bukkit.getServer().getPluginManager().callEvent(new The5zigModUserJoinEvent(modUser));
-				} catch (NumberFormatException e) {
-					plugin.getLogger().warning("Player " + player.getName() + " failed to connect with the 5zig Mod!");
-				}
+				ModUser modUser = new ModUserImpl(player);
+				((UserManagerImpl) plugin.getUserManager()).addUser(modUser);
+				plugin.getLogger().info("Player " + player.getName() + " connected using the 5zig Mod!");
+				Bukkit.getServer().getPluginManager().callEvent(new The5zigModUserJoinEvent(modUser));
 			}
 		}
 	}

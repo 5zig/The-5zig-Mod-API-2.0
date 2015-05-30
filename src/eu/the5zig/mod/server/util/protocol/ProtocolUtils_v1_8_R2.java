@@ -1,13 +1,15 @@
 package eu.the5zig.mod.server.util.protocol;
 
-import eu.the5zig.mod.server.The5zigMod;
-import eu.the5zig.mod.server.api.ModUser;
-import eu.the5zig.mod.server.api.Stat;
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_8_R2.PacketDataSerializer;
 import net.minecraft.server.v1_8_R2.PacketPlayOutCustomPayload;
+
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import eu.the5zig.mod.server.The5zigMod;
+import eu.the5zig.mod.server.api.ModUser;
+import eu.the5zig.mod.server.api.Stat;
 
 /**
  * Created by 5zig.
@@ -15,6 +17,13 @@ import org.bukkit.entity.Player;
  */
 public class ProtocolUtils_v1_8_R2 implements IProtocolUtils {
 
+	@Override
+	public void requestRegister(Player player) {
+		PacketDataSerializer dataSerializer = newDataSerializer();
+		dataSerializer.writeInt(The5zigMod.VERSION);
+		sendCustomPayload(player, The5zigMod.CHANNEL_REGISTER, dataSerializer);
+	}
+	
 	@Override
 	public void sendStat(ModUser modUser, Stat stat) {
 		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.UPDATE);
@@ -63,14 +72,6 @@ public class ProtocolUtils_v1_8_R2 implements IProtocolUtils {
 	}
 
 	@Override
-	public void sendLogin(ModUser modUser, LoginResponse response) {
-		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.LOGIN);
-		dataSerializer.writeInt(response.ordinal());
-
-		sendCustomPayload(modUser.getPlayer(), dataSerializer);
-	}
-
-	@Override
 	public void sendImage(ModUser modUser, String base64, int id) {
 		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.IMAGE);
 		dataSerializer.a(base64);
@@ -88,10 +89,17 @@ public class ProtocolUtils_v1_8_R2 implements IProtocolUtils {
 	}
 
 	@Override
-	public void resetImage(ModUser modUser, int id) {
+	public void resetImage(ModUser modUser) {
 		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.RESET_IMAGE);
-		dataSerializer.writeInt(id);
 
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
+	}
+	
+	@Override
+	public void sendOverlay(ModUser modUser, String message) {
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.OVERLAY);
+		dataSerializer.a(message);
+		
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 
@@ -105,9 +113,13 @@ public class ProtocolUtils_v1_8_R2 implements IProtocolUtils {
 		return packetDataSerializer;
 	}
 
-	private void sendCustomPayload(Player player, PacketDataSerializer dataSerializer) {
-		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(The5zigMod.CHANNEL, dataSerializer);
+	private void sendCustomPayload(Player player, String channel, PacketDataSerializer dataSerializer) {
+		PacketPlayOutCustomPayload packet = new PacketPlayOutCustomPayload(channel, dataSerializer);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+	}
+
+	private void sendCustomPayload(Player player, PacketDataSerializer dataSerializer) {
+		sendCustomPayload(player, The5zigMod.CHANNEL, dataSerializer);
 	}
 
 }

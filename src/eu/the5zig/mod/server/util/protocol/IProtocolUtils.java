@@ -1,5 +1,8 @@
 package eu.the5zig.mod.server.util.protocol;
 
+import org.bukkit.entity.Player;
+
+import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 
@@ -9,6 +12,15 @@ import eu.the5zig.mod.server.api.Stat;
  */
 public interface IProtocolUtils {
 
+	/**
+	 * Sends a Register request to the client, containing the current version of the API.
+	 * If the client has the 5zig mod installed (and the corrent version of it), he will
+	 * send back a payload containing one byte with value 1 on Channel {@link The5zigMod#CHANNEL}
+	 * 
+	 * @param player The player that should be requested to be registered.
+	 */
+	void requestRegister(Player player);
+	
 	/**
 	 * Sends a stat to a mod user.
 	 *
@@ -56,13 +68,6 @@ public interface IProtocolUtils {
 	void resetLargeText(ModUser modUser);
 
 	/**
-	 * Sends a login response to the User
-	 *
-	 * @param modUser The Mod User that should receive the response
-	 */
-	void sendLogin(ModUser modUser, LoginResponse response);
-
-	/**
 	 * Sends an image with its server side generated id to a mod user.
 	 *
 	 * @param modUser The Mod User that should see the image.
@@ -80,22 +85,23 @@ public interface IProtocolUtils {
 	void sendImage(ModUser modUser, int id);
 
 	/**
-	 * Resets a image of the Mod User by sending the id of the image.
+	 * Resets a image of the Mod User.
 	 *
 	 * @param modUser The Mod User where the image should be removed.
-	 * @param id      The Id of the Image.
 	 */
-	void resetImage(ModUser modUser, int id);
+	void resetImage(ModUser modUser);
+	
+	/**
+	 * Sends an overlay message to the Mod User. Can be split up with the \n character.
+	 * 
+	 * @param modUser The Mod User that should receive the overlay message.
+	 * @param message The overlay message.
+	 */
+	void sendOverlay(ModUser modUser, String message);
 
 	enum PayloadType {
 
-		UPDATE, RESET, CLEAR, DISPLAY_NAME, LOGIN, IMAGE, IMAGE_ID, RESET_IMAGE, LARGE_TEXT, RESET_LARGE_TEXT
-
-	}
-
-	enum LoginResponse {
-
-		SUCCESS, OUTDATED_SERVER, OUTDATED_CLIENT
+		UPDATE, RESET, CLEAR, DISPLAY_NAME, IMAGE, IMAGE_ID, RESET_IMAGE, LARGE_TEXT, RESET_LARGE_TEXT, OVERLAY
 
 	}
 

@@ -16,16 +16,10 @@ public class ModUserImpl implements ModUser {
 	private final Player player;
 	private StatsManager statsManager;
 
-	ModUserImpl(Player player, int version) {
+	ModUserImpl(Player player) {
 		this.player = player;
 		statsManager = new StatsManagerImpl(this);
-		IProtocolUtils.LoginResponse loginResponse = IProtocolUtils.LoginResponse.SUCCESS;
-		if (The5zigMod.VERSION < version)
-			loginResponse = IProtocolUtils.LoginResponse.OUTDATED_SERVER;
-		if (The5zigMod.VERSION > version)
-			loginResponse = IProtocolUtils.LoginResponse.OUTDATED_CLIENT;
-		The5zigMod.getInstance().getProtocolUtils().sendLogin(this, loginResponse);
-		connected = loginResponse == IProtocolUtils.LoginResponse.SUCCESS;
+		connected = true;
 	}
 
 	@Override
