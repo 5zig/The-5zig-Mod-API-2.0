@@ -1,6 +1,6 @@
-The 5zig Mod API 2.0
+The 5zig Mod API 2.1
 ====================
-The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using CustomPayloads. This will of course only work if the user has got The 5zig Mod installed (http://5zig.eu/downloads).
+The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using Custom Payloads / Plugin messaging. This will of course only work if the user has got The 5zig Mod installed (http://5zig.eu/downloads).
 
 Download link of the API is here: http://5zig.eu/u/api (Last updated on 10.05.2015-10:00)
 
@@ -21,6 +21,12 @@ public class Main extends JavaPlugin implements Listener {
 
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
+		ImageRegistry imageRegistry = The5zigMod.getInstance().getImageRegistry();
+		try {
+			imageRegistry.register("test.anim1", "anim/5zig1.png"); // Register a new Image
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@EventHandler
@@ -28,11 +34,11 @@ public class Main extends JavaPlugin implements Listener {
 		final ModUser modUser = event.getModUser(); // Get the ModUser
 		modUser.getStatsManager().setDisplayName("Server Stats of " + modUser.getPlayer().getName()); // Change the Display Name.
 		modUser.getStatsManager().getStat("Foo").setScore("Bar"); // Add random stats
-		modUser.getStatsManager().sendImage("anim/5zig1.png"); // Send an image
+		modUser.getStatsManager().sendImage("test.anim1"); // Send the privously registered image
 		getServer().getScheduler().runTaskLater(this, new Runnable() {
 			@Override
 			public void run() {
-				modUser.getStatsManager().resetImage("anim/5zig1.png"); // Remove the image after 50 ticks
+				modUser.getStatsManager().resetImage(); // Remove the image after 50 ticks
 			}
 		}, 50);
 	}
