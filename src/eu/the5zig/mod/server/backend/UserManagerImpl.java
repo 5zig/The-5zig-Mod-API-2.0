@@ -1,24 +1,15 @@
 package eu.the5zig.mod.server.backend;
 
-import io.netty.buffer.Unpooled;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
-import net.minecraft.server.v1_8_R3.PacketDataSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutCustomPayload;
-
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
 
 import com.google.common.collect.Maps;
 

@@ -1,10 +1,9 @@
 package eu.the5zig.mod.server.backend;
 
-import eu.the5zig.mod.server.The5zigMod;
+import org.bukkit.entity.Player;
+
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.StatsManager;
-import eu.the5zig.mod.server.util.protocol.IProtocolUtils;
-import org.bukkit.entity.Player;
 
 /**
  * Created by 5zig.
