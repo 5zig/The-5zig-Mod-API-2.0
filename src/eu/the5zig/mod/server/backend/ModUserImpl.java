@@ -1,9 +1,8 @@
 package eu.the5zig.mod.server.backend;
 
-import org.bukkit.entity.Player;
-
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.StatsManager;
+import org.bukkit.entity.Player;
 
 /**
  * Created by 5zig.
@@ -13,10 +12,12 @@ public class ModUserImpl implements ModUser {
 
 	private final boolean connected;
 	private final Player player;
+	private final byte protocolVersion;
 	private StatsManager statsManager;
 
-	ModUserImpl(Player player) {
+	ModUserImpl(Player player, byte protocolVersion) {
 		this.player = player;
+		this.protocolVersion = protocolVersion;
 		statsManager = new StatsManagerImpl(this);
 		connected = true;
 	}
@@ -34,5 +35,10 @@ public class ModUserImpl implements ModUser {
 	@Override
 	public boolean isConnected() {
 		return connected && player.isOnline();
+	}
+
+	@Override
+	public byte getProtocolVersion() {
+		return protocolVersion;
 	}
 }

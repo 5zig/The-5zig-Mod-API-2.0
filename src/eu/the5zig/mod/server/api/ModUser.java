@@ -29,4 +29,9 @@ public interface ModUser {
 	 */
 	boolean isConnected();
 
+	/**
+	 * @return the API Version of the Player.
+	 */
+	byte getProtocolVersion();
+
 }

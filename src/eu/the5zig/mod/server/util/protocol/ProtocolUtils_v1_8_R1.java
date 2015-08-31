@@ -6,7 +6,6 @@ import eu.the5zig.mod.server.api.Stat;
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_8_R1.PacketDataSerializer;
 import net.minecraft.server.v1_8_R1.PacketPlayOutCustomPayload;
-
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -99,6 +98,15 @@ public class ProtocolUtils_v1_8_R1 implements IProtocolUtils {
 		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.OVERLAY);
 		dataSerializer.a(message);
 		
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
+	}
+
+	@Override
+	public void sendCountdown(ModUser modUser, String name, long time) {
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.COUNTDOWN);
+		dataSerializer.a(name);
+		dataSerializer.writeLong(time);
+
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 

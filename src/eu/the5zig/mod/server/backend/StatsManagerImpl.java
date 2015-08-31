@@ -1,22 +1,20 @@
 package eu.the5zig.mod.server.backend;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.HashMap;
-
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.bukkit.Bukkit;
-import org.spigotmc.AsyncCatcher;
-
 import com.google.common.collect.Maps;
-
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ImageRegistry;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import eu.the5zig.mod.server.api.StatsManager;
 import eu.the5zig.mod.server.util.Utils;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.bukkit.Bukkit;
+import org.spigotmc.AsyncCatcher;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by 5zig.
@@ -158,4 +156,23 @@ public class StatsManagerImpl implements StatsManager {
 		The5zigMod.getInstance().getProtocolUtils().sendOverlay(modUser, message);
 	}
 
+	@Override
+	public void startCountdown(String name, long ms) {
+		Validate.notNull(name, "Name cannot be null.");
+		Validate.notEmpty(name, "Name cannot be empty.");
+		Validate.validState(name.length() <= 50, "Name cannot be longer than 50 characters.");
+		Validate.validState(ms > 0, "Countdown must be longer than 0 ms");
+		if (modUser.getProtocolVersion() < The5zigMod.VERSION)
+			return;
+
+		The5zigMod.getInstance().getProtocolUtils().sendCountdown(modUser, name, ms);
+	}
+
+	@Override
+	public void resetCountdown() {
+		if (modUser.getProtocolVersion() < The5zigMod.VERSION)
+			return;
+
+		The5zigMod.getInstance().getProtocolUtils().sendCountdown(modUser, "", 0);
+	}
 }

@@ -1,15 +1,13 @@
 package eu.the5zig.mod.server.util.protocol;
 
-import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_8_R2.PacketDataSerializer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutCustomPayload;
-
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
 import eu.the5zig.mod.server.The5zigMod;
 import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
+import io.netty.buffer.Unpooled;
+import net.minecraft.server.v1_8_R2.PacketDataSerializer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutCustomPayload;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Created by 5zig.
@@ -100,6 +98,15 @@ public class ProtocolUtils_v1_8_R2 implements IProtocolUtils {
 		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.OVERLAY);
 		dataSerializer.a(message);
 		
+		sendCustomPayload(modUser.getPlayer(), dataSerializer);
+	}
+
+	@Override
+	public void sendCountdown(ModUser modUser, String name, long time) {
+		PacketDataSerializer dataSerializer = newDataSerializer(PayloadType.COUNTDOWN);
+		dataSerializer.a(name);
+		dataSerializer.writeLong(time);
+
 		sendCustomPayload(modUser.getPlayer(), dataSerializer);
 	}
 

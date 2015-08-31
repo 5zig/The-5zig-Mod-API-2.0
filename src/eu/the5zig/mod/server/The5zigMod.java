@@ -1,16 +1,15 @@
 package eu.the5zig.mod.server;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import eu.the5zig.mod.server.api.ImageRegistry;
 import eu.the5zig.mod.server.api.UserManager;
 import eu.the5zig.mod.server.backend.ClientMessageListener;
 import eu.the5zig.mod.server.backend.ImageRegistryImpl;
 import eu.the5zig.mod.server.backend.UserManagerImpl;
 import eu.the5zig.mod.server.util.protocol.IProtocolUtils;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by 5zig.
@@ -20,7 +19,7 @@ public class The5zigMod extends JavaPlugin {
 
 	public static final String CHANNEL = "5zig";
 	public static final String CHANNEL_REGISTER = "5zig_REG";
-	public static final int VERSION = 1;
+	public static final int VERSION = 2;
 	
 	private static The5zigMod instance;
 	private UserManager userManager;
