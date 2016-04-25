@@ -5,7 +5,8 @@ import eu.the5zig.mod.server.api.UserManager;
 import eu.the5zig.mod.server.backend.ClientMessageListener;
 import eu.the5zig.mod.server.backend.ImageRegistryImpl;
 import eu.the5zig.mod.server.backend.UserManagerImpl;
-import eu.the5zig.mod.server.util.protocol.IProtocolUtils;
+import eu.the5zig.mod.server.util.protocol.IBufferUtils;
+import eu.the5zig.mod.server.util.protocol.Protocol;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -16,10 +17,10 @@ public class The5zigMod extends JavaPlugin {
 	public static final String CHANNEL = "5zig";
 	public static final String CHANNEL_REGISTER = "5zig_REG";
 	public static final int VERSION = 2;
-	
+
 	private static The5zigMod instance;
 	private UserManager userManager;
-	private IProtocolUtils protocolUtils;
+	private Protocol protocol;
 	private ImageRegistry imageRegistry;
 
 	/**
@@ -47,9 +48,9 @@ public class The5zigMod extends JavaPlugin {
 		getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
 		getServer().getMessenger().registerIncomingPluginChannel(this, CHANNEL, new ClientMessageListener(this));
 		getLogger().info("Listening on channel " + CHANNEL);
-		
+
 		for (Player player : getServer().getOnlinePlayers()) {
-			protocolUtils.requestRegister(player);
+			protocol.requestRegister(player);
 		}
 
 		getLogger().info("The 5zig Mod Server API v" + getDescription().getVersion() + " has been enabled!");
@@ -62,15 +63,15 @@ public class The5zigMod extends JavaPlugin {
 		String packageName = getServer().getClass().getPackage().getName();
 		// org.bukkit.craftbukkit.version
 		String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-		getLogger().info("Trying to setup Hooks for CraftBukkit ");
+		getLogger().info("Trying to setup Hooks for CraftBukkit " + version);
 		try {
-			Class<?> clazz = Class.forName("eu.the5zig.mod.server.util.protocol.ProtocolUtils_" + version);
-			if (IProtocolUtils.class.isAssignableFrom(clazz)) {
-				this.protocolUtils = (IProtocolUtils) clazz.getConstructor().newInstance();
+			Class<?> clazz = Class.forName("eu.the5zig.mod.server.util.protocol.BufferUtils_" + version);
+			if (IBufferUtils.class.isAssignableFrom(clazz)) {
+				IBufferUtils bufferUtils = (IBufferUtils) clazz.getConstructor().newInstance();
+				this.protocol = new Protocol(bufferUtils);
 			} else {
 				throw new ClassCastException();
-			}
-			getLogger().info("Successfully hooked into CraftBukkit " + version);
+			} getLogger().info("Successfully hooked into CraftBukkit " + version);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,13 +91,13 @@ public class The5zigMod extends JavaPlugin {
 		return userManager;
 	}
 
-	public IProtocolUtils getProtocolUtils() {
-		return protocolUtils;
+	public Protocol getProtocolUtils() {
+		return protocol;
 	}
-	
+
 	/**
 	 * Gets the ImageRegistry. This class is used to register all images that should be sent to the player.
-	 * 
+	 *
 	 * @return The Image Registry class.
 	 */
 	public ImageRegistry getImageRegistry() {
