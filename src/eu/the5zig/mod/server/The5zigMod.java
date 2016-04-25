@@ -11,10 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public class The5zigMod extends JavaPlugin {
 
 	public static final String CHANNEL = "5zig";

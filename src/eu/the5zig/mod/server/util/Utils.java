@@ -12,10 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public class Utils {
 
 	public static String getBase64(BufferedImage bufferedImage) throws IOException {

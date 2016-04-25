@@ -5,10 +5,6 @@ import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import org.apache.commons.lang3.Validate;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public class StatImpl implements Stat {
 
 	private ModUser modUser;

@@ -8,10 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public class ClientMessageListener implements PluginMessageListener {
 
 	private The5zigMod plugin;

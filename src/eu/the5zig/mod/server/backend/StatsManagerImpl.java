@@ -16,10 +16,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public class StatsManagerImpl implements StatsManager {
 
 	private ModUser modUser;

@@ -4,8 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Created by 5zig. All rights reserved © 2015 </p> A Class that manages all
- * images that can be send to a mod user.
+ * A Class that manages all images that can be send to a mod user.
  */
 public interface ImageRegistry {
 

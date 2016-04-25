@@ -4,10 +4,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public interface UserManager {
 
 	/**

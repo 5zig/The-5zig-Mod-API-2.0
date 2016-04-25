@@ -9,10 +9,6 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutCustomPayload;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public class ProtocolUtils_v1_8_R2 implements IProtocolUtils {
 
 	@Override

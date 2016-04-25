@@ -5,10 +5,6 @@ import eu.the5zig.mod.server.api.ModUser;
 import eu.the5zig.mod.server.api.Stat;
 import org.bukkit.entity.Player;
 
-/**
- * Created by 5zig.
- * All rights reserved © 2015
- */
 public interface IProtocolUtils {
 
 	/**
