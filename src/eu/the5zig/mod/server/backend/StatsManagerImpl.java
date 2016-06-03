@@ -144,15 +144,6 @@ public class StatsManagerImpl implements StatsManager {
 	}
 	
 	@Override
-	public void sendOverlay(String message) {
-		Validate.notNull(message, "Message cannot be null.");
-		Validate.notEmpty(message, "Message cannot be empty.");
-		Validate.validState(message.length() <= 100, "Message cannot be longer than 100 characters.");
-		
-		The5zigMod.getInstance().getProtocolUtils().sendOverlay(modUser, message);
-	}
-
-	@Override
 	public void startCountdown(String name, long ms) {
 		Validate.notNull(name, "Name cannot be null.");
 		Validate.notEmpty(name, "Name cannot be empty.");

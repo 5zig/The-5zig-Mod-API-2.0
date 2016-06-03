@@ -19,6 +19,14 @@ public interface ModUser {
 	StatsManager getStatsManager();
 
 	/**
+	 * Sends an overlay message to the player. The message may not be longer than 100 characters and will be
+	 * splitted onto the second line automatically. Use the \n character to force split the message onto a new line.
+	 *
+	 * @param message The message that should be displayed.
+	 */
+	void sendOverlay(String message);
+
+	/**
 	 * Checks if the ModUser is currently connected to the ServerAPI.
 	 *
 	 * @return If the ModUser is currently connected to the ServerAPI.

@@ -100,14 +100,6 @@ public interface StatsManager {
 	void clearStats();
 
 	/**
-	 * Sends an overlay message to the player. The message may not be longer than 100 characters and will be
-	 * splitted onto the second line automatically. Use the \n character to force split the message onto a new line.
-	 *
-	 * @param message The message that should be displayed.
-	 */
-	void sendOverlay(String message);
-
-	/**
 	 * Starts a large countdown for the player. Will be displayed in the middle of the screen.
 	 * <b>Requires Protocol Version 2 of client!</b>
 	 *
