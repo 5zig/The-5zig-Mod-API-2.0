@@ -27,6 +27,17 @@ public interface ModUser {
 	void sendOverlay(String message);
 
 	/**
+	 * Sends a mod plugin download request to the client. This mod plugin will be installed on the client-side and can be used to display additional stats that are not possible using the
+	 * server API. The mod plugin will be only downloaded from the client if the client has not downloaded the plugin before or if the hash of the previously downloaded plugin does not
+	 * match the given hash. See <a href="https://github.com/5zig/The-5zig-API">https://github.com/5zig/The-5zig-API</a> for more information.
+	 *
+	 * @param pluginName The name of the plugin, eg. "SuperDuperPlugin". Max length is 128 bytes/characters.
+	 * @param sha1Hash The sha1 hash of the plugin. Must be 40 characters long.
+	 * @param downloadPath The download path of the plugin that should be used by the client. HTTPS is recommended but not necessary. Max length is 256 bytes/characters.
+	 */
+	void sendModPluginRequest(String pluginName, String sha1Hash, String downloadPath);
+
+	/**
 	 * Checks if the ModUser is currently connected to the ServerAPI.
 	 *
 	 * @return If the ModUser is currently connected to the ServerAPI.
