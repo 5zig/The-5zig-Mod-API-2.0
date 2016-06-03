@@ -31,11 +31,12 @@ public interface ModUser {
 	 * server API. The mod plugin will be only downloaded from the client if the client has not downloaded the plugin before or if the hash of the previously downloaded plugin does not
 	 * match the given hash. See <a href="https://github.com/5zig/The-5zig-API">https://github.com/5zig/The-5zig-API</a> for more information.
 	 *
-	 * @param pluginName The name of the plugin, eg. "SuperDuperPlugin". Max length is 128 bytes/characters.
-	 * @param sha1Hash The sha1 hash of the plugin. Must be 40 characters long.
-	 * @param downloadPath The download path of the plugin that should be used by the client. HTTPS is recommended but not necessary. Max length is 256 bytes/characters.
+	 * @param pluginName    The name of the plugin, eg. "SuperDuperPlugin". Max length is 128 bytes/characters.
+	 * @param sha1Hash      The sha1 hash of the plugin. Must be 40 characters long.
+	 * @param downloadPath  The download path of the plugin that should be used by the client. HTTPS is recommended but not necessary. Max length is 256 bytes/characters.
+	 * @param customMessage A custom message that will be shown to the client or {@code null} if no custom message should be displayed. Max length is 256 bytes/characters.
 	 */
-	void sendModPluginRequest(String pluginName, String sha1Hash, String downloadPath);
+	void sendModPluginRequest(String pluginName, String sha1Hash, String downloadPath, String customMessage);
 
 	/**
 	 * Checks if the ModUser is currently connected to the ServerAPI.

@@ -41,7 +41,7 @@ public class ModUserImpl implements ModUser {
 	}
 
 	@Override
-	public void sendModPluginRequest(String pluginName, String sha1Hash, String downloadPath) {
+	public void sendModPluginRequest(String pluginName, String sha1Hash, String downloadPath, String customMessage) {
 		Validate.notNull(pluginName, "Plugin name cannot be null.");
 		Validate.notEmpty(pluginName, "Plugin name cannot be empty.");
 		Validate.isTrue(pluginName.getBytes(Charsets.UTF_8).length <= 128, "Plugin name cannot be longer than 128 bytes.");
@@ -51,8 +51,12 @@ public class ModUserImpl implements ModUser {
 		Validate.notNull(downloadPath, "Download path cannot be null.");
 		Validate.notEmpty(downloadPath, "Download path cannot be empty.");
 		Validate.isTrue(downloadPath.getBytes(Charsets.UTF_8).length <= 256, "Download path cannot be longer than 256 bytes.");
+		if (customMessage == null) {
+			customMessage = "";
+		}
+		Validate.isTrue(customMessage.getBytes(Charsets.UTF_8).length <= 256, "Custom message cannot be longer than 256 bytes.");
 
-		The5zigMod.getInstance().getProtocolUtils().sendModPluginRequest(this, pluginName, sha1Hash, downloadPath);
+		The5zigMod.getInstance().getProtocolUtils().sendModPluginRequest(this, pluginName, sha1Hash, downloadPath, customMessage);
 	}
 
 	@Override

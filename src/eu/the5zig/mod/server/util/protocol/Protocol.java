@@ -172,17 +172,19 @@ public class Protocol {
 	/**
 	 * Sends a mod plugin download request to the Mod User.
 	 *
-	 * @param modUser      The Mod User that should receive the request.
-	 * @param pluginName   The name of the plugin.
-	 * @param sha1Hash     The sha1 hash of the plugin.
-	 * @param downloadPath The download path of the plugin. The plugin will be only downloaded if the client receives this request for the first time or if the previously downloaded plugin
-	 *                     does not match the sent hash.
+	 * @param modUser       The Mod User that should receive the request.
+	 * @param pluginName    The name of the plugin.
+	 * @param sha1Hash      The sha1 hash of the plugin.
+	 * @param downloadPath  The download path of the plugin. The plugin will be only downloaded if the client receives this request for the first time or if the previously downloaded plugin
+	 *                      does not match the sent hash.
+	 * @param customMessage A custom message that will be displayed to the client.
 	 */
-	public void sendModPluginRequest(ModUser modUser, String pluginName, String sha1Hash, String downloadPath) {
+	public void sendModPluginRequest(ModUser modUser, String pluginName, String sha1Hash, String downloadPath, String customMessage) {
 		IPacketBuffer buffer = bufferUtils.createBuffer(PayloadType.MOD_PLUGIN);
 		buffer.writeString(pluginName);
 		buffer.writeString(sha1Hash);
 		buffer.writeString(downloadPath);
+		buffer.writeString(customMessage);
 
 		buffer.send(modUser.getPlayer(), The5zigMod.CHANNEL);
 	}
