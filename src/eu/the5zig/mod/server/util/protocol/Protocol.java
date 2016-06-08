@@ -189,10 +189,12 @@ public class Protocol {
 		buffer.send(modUser.getPlayer(), The5zigMod.CHANNEL);
 	}
 
-	enum PayloadType {
-
+	public enum PayloadType {
 		UPDATE, RESET, CLEAR, DISPLAY_NAME, IMAGE, IMAGE_ID, RESET_IMAGE, LARGE_TEXT, RESET_LARGE_TEXT, OVERLAY, COUNTDOWN, MOD_PLUGIN
+	}
 
+	public enum ModPluginResponse {
+		DENIED, ALREADY_LOADED, DOWNLOADED, DOWNLOAD_FAILED
 	}
 
 }
