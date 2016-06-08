@@ -16,7 +16,7 @@ public class The5zigMod extends JavaPlugin {
 
 	public static final String CHANNEL = "5zig";
 	public static final String CHANNEL_REGISTER = "5zig_REG";
-	public static final int VERSION = 2;
+	public static final int VERSION = 3;
 
 	private static The5zigMod instance;
 	private UserManager userManager;
