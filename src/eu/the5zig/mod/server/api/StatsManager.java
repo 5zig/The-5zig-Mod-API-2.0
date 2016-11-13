@@ -33,6 +33,11 @@ public interface StatsManager {
 	boolean hasStat(String name);
 
 	/**
+	 * @return the amount of created stats.
+	 */
+	int getStatCount();
+
+	/**
 	 * Gets the Display Name of the Stat. The Display Name is shown as a 'Label' or Title for all following stats.
 	 *
 	 * @return The Display Name of the Stat.
@@ -74,7 +79,6 @@ public interface StatsManager {
 	 * This method should be called asynchronously.
 	 *
 	 * @param image The BufferedImage that should be sent.
-	 * @return the base64 String of the Image.
 	 */
 	void sendImage(BufferedImage image);
 
@@ -112,5 +116,12 @@ public interface StatsManager {
 	 * Resets a countdown of the player.
 	 */
 	void resetCountdown();
+
+	/**
+	 * Sets the Server Lobby of the player. Will be displayed in the friends list of the mod as well.
+	 *
+	 * @param lobby the lobby of the player or {@code null} to reset.
+	 */
+	void setLobby(String lobby);
 
 }

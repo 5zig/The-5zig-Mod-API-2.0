@@ -37,7 +37,7 @@ public class StatsManagerImpl implements StatsManager {
 	public Stat getStat(String name) {
 		Validate.notNull(name, "Stat name cannot be null.");
 		Validate.notEmpty(name, "Stat name cannot be empty.");
-		Validate.validState(name.length() <= 100, "Length of Stat name cannot exceed 100 characters.");
+		Validate.isTrue(name.length() <= 100, "Length of Stat name cannot be longer than 100 characters.");
 
 		if (!hasStat(name)) {
 			if (stats.size() >= 10)
@@ -68,6 +68,11 @@ public class StatsManagerImpl implements StatsManager {
 	}
 
 	@Override
+	public int getStatCount() {
+		return stats.size();
+	}
+
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -76,7 +81,7 @@ public class StatsManagerImpl implements StatsManager {
 	public void setDisplayName(String displayName) {
 		Validate.notNull(displayName, "Display Name cannot be null.");
 		Validate.notEmpty(displayName, "Display Name cannot be empty.");
-		Validate.validState(displayName.length() <= 150, "Length of Display Name cannot exceed 150 characters.");
+		Validate.isTrue(displayName.length() <= 150, "Length of Display Name cannot exceed 150 characters.");
 
 		this.displayName = displayName;
 		The5zigMod.getInstance().getProtocolUtils().sendDisplayName(modUser, displayName);
@@ -86,7 +91,7 @@ public class StatsManagerImpl implements StatsManager {
 	public void sendLargeText(String text) {
 		Validate.notNull(text, "Text cannot be null.");
 		Validate.notEmpty(text, "Text cannot be empty.");
-		Validate.validState(text.length() <= 250, "Length of Text cannot exceed 150 characters.");
+		Validate.isTrue(text.length() <= 250, "Length of Text cannot exceed 150 characters.");
 
 		this.largeText = text;
 		The5zigMod.getInstance().getProtocolUtils().sendLargeText(modUser, largeText);
@@ -126,8 +131,8 @@ public class StatsManagerImpl implements StatsManager {
 	@Override
 	public void sendImage(BufferedImage image) {
 		Validate.notNull(image, "Image cannot be null.");
-		Validate.validState(image.getWidth() == 64, "Image width must be 64 pixels.");
-		Validate.validState(image.getHeight() == 64, "Image height must be 64 pixels.");
+		Validate.isTrue(image.getWidth() == 64, "Image width must be 64 pixels.");
+		Validate.isTrue(image.getHeight() == 64, "Image height must be 64 pixels.");
 		Utils.checkImageSize(image, Short.MAX_VALUE);
 		
 		try {
@@ -147,9 +152,9 @@ public class StatsManagerImpl implements StatsManager {
 	public void startCountdown(String name, long ms) {
 		Validate.notNull(name, "Name cannot be null.");
 		Validate.notEmpty(name, "Name cannot be empty.");
-		Validate.validState(name.length() <= 50, "Name cannot be longer than 50 characters.");
+		Validate.isTrue(name.length() <= 50, "Name cannot be longer than 50 characters.");
 		Validate.validState(ms > 0, "Countdown must be longer than 0 ms");
-		if (modUser.getProtocolVersion() < The5zigMod.VERSION)
+		if (modUser.getProtocolVersion() < 3)
 			return;
 
 		The5zigMod.getInstance().getProtocolUtils().sendCountdown(modUser, name, ms);
@@ -157,9 +162,18 @@ public class StatsManagerImpl implements StatsManager {
 
 	@Override
 	public void resetCountdown() {
-		if (modUser.getProtocolVersion() < The5zigMod.VERSION)
+		if (modUser.getProtocolVersion() < 3)
 			return;
 
 		The5zigMod.getInstance().getProtocolUtils().sendCountdown(modUser, "", 0);
+	}
+
+	@Override
+	public void setLobby(String lobby) {
+		Validate.isTrue(lobby == null || lobby.length() <= 50, "Lobby cannot be longer than 50 characters.");
+		if (modUser.getProtocolVersion() < 4)
+			return;
+
+		The5zigMod.getInstance().getProtocolUtils().setLobby(modUser, lobby == null ? "" : lobby);
 	}
 }

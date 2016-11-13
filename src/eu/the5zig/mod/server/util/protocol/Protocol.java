@@ -189,8 +189,21 @@ public class Protocol {
 		buffer.send(modUser.getPlayer(), The5zigMod.CHANNEL);
 	}
 
+	/**
+	 * Sets the Server Lobby of the player. Will be displayed in the friends list of the mod as well.
+	 *
+	 * @param modUser The Mod User that should receive the request.
+	 * @param lobby   The lobby name.
+	 */
+	public void setLobby(ModUser modUser, String lobby) {
+		IPacketBuffer buffer = bufferUtils.createBuffer(PayloadType.LOBBY);
+		buffer.writeString(lobby);
+
+		buffer.send(modUser.getPlayer(), The5zigMod.CHANNEL);
+	}
+
 	public enum PayloadType {
-		UPDATE, RESET, CLEAR, DISPLAY_NAME, IMAGE, IMAGE_ID, RESET_IMAGE, LARGE_TEXT, RESET_LARGE_TEXT, OVERLAY, COUNTDOWN, MOD_PLUGIN
+		UPDATE, RESET, CLEAR, DISPLAY_NAME, IMAGE, IMAGE_ID, RESET_IMAGE, LARGE_TEXT, RESET_LARGE_TEXT, OVERLAY, COUNTDOWN, MOD_PLUGIN, LOBBY
 	}
 
 	public enum ModPluginResponse {
