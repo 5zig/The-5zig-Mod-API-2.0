@@ -2,7 +2,7 @@ The 5zig Mod API 2.3.1
 ====================
 The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using Custom Payloads / Plugin messaging. This will of course only work if the user has got The 5zig Mod installed (http://5zig.eu/downloads).
 
-The API is compatible with all Minecraft 1.8, Minecraft 1.9 and Minecraft 1.10 versions of Bukkit/Spigot!
+The API is compatible with all Minecraft 1.8, Minecraft 1.9, Minecraft 1.10, Minecraft 1.11 versions of Bukkit/Spigot!
 
 __All API releases are now here: https://github.com/5zig/The-5zig-Mod-API-2.0/releases__
 
