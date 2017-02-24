@@ -1,13 +1,13 @@
 The 5zig Mod API 2.3.1
 ====================
-The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using Custom Payloads / Plugin messaging. This will of course only work if the user has got The 5zig Mod installed (http://5zig.eu/downloads).
+The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using Custom Payloads / Plugin messaging. This will of course only work if the user has got The 5zig Mod installed (http://5zig.net/downloads).
 
 The API is compatible with all Minecraft 1.8, Minecraft 1.9, Minecraft 1.10, Minecraft 1.11 versions of Bukkit/Spigot!
 
 __All API releases are now here: https://github.com/5zig/The-5zig-Mod-API-2.0/releases__
 
 The API can currently send Stats and even images to the client, within a few lines of code.
-On the client side, that could look like this: ![The 5zig Mod API](http://5zig.eu/scr/fiYJpk7.jpg)
+On the client side, that could look like this: ![The 5zig Mod API](http://5zig.net/scr/fiYJpk7.jpg)
 
 
 The API provides 2 Custom Events: The5zigModUserLoginEvent and The5zigModUserJoinEvent.

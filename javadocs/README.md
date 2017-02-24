@@ -1,1 +1,1 @@
-JavaDocs can be found at http://5zig.eu/jdocs
+JavaDocs can be found at http://5zig.net/jdocs
