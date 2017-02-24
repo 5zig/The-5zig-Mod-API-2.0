@@ -1,4 +1,4 @@
-The 5zig Mod API 2.3.1
+The 5zig Mod API 2.3.2
 ====================
 The 5zig Mod ServerAPI is a plugin created for easy communication from a Plugin to a Client using Custom Payloads / Plugin messaging. This will of course only work if the user has got The 5zig Mod installed (http://5zig.net/downloads).
 
